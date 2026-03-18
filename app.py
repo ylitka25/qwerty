@@ -1,16 +1,15 @@
-# app.py
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, render_template
 from datetime import datetime
 import os
 
-app = Flask(__name__, static_folder='.', static_url_path='')
+app = Flask(__name__)
 
 tasks = []
 task_id_counter = 1
 
 @app.route('/')
 def index():
-    return send_from_directory('.', 'index.html')
+    return render_template('index.html')
 
 @app.route('/tasks', methods=['GET'])
 def get_tasks():
@@ -53,5 +52,4 @@ def delete_task(task_id):
     return jsonify({'message': 'Task deleted'}), 200
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
